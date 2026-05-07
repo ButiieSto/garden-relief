@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Garden Relief – Klerksdorp's Garden Experts</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%231a3a1f'/><text y='48' x='8' font-size='42'>🌿</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green-dark:#1a3a1f; --green-mid:#2d6a35; --green-bright:#4caf50;
+      --green-light:#a8d5a2; --cream:#f5f0e8; --cream-dark:#ede7d9;
+      --earth:#8b6914; --earth-light:#c49a2a; --white:#ffffff;
+      --text:#1a1a1a; --text-mid:#444; --wa:#25D366;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 200;
+      background: rgba(26,58,31,0.97); backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6vw; height: 68px; border-bottom: 2px solid var(--earth);
+      transition: box-shadow 0.3s;
+    }
+    .nav-logo { font-family:'Playfair Display',serif; font-size:1.45rem; font-weight:900; color:var(--cream); letter-spacing:1px; text-decoration:none; }
+    .nav-logo span { color:var(--earth-light); }
+    .nav-links { display:flex; gap:2rem; list-style:none; }
+    .nav-links a { color:var(--green-light); text-decoration:none; font-size:0.88rem; font-weight:500; letter-spacing:0.5px; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--earth-light); }
+    .nav-book { background:var(--earth); color:var(--white); padding:9px 22px; border-radius:4px; text-decoration:none; font-size:0.85rem; font-weight:600; letter-spacing:0.5px; transition:background 0.2s; }
+    .nav-book:hover { background:var(--earth-light); }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(155deg, rgba(26,58,31,0.91) 0%, rgba(45,106,53,0.55) 55%, rgba(0,0,0,0.2) 100%),
+        url('https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1800&auto=format&fit=crop&q=80') center/cover no-repeat fixed;
+      display:flex; align-items:center; padding:0 8vw;
+      position:relative; overflow:hidden;
+    }
+    #hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:140px; background:linear-gradient(to bottom, transparent, var(--cream)); }
+    .hero-content { max-width:660px; animation:fadeUp 1s ease both; position:relative; z-index:1; }
+    .hero-badge { display:inline-flex; align-items:center; gap:8px; background:var(--earth); color:var(--cream); font-size:0.72rem; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; padding:7px 18px; border-radius:30px; margin-bottom:1.6rem; }
+    h1.hero-title { font-family:'Playfair Display',serif; font-size:clamp(3rem,6.5vw,5.5rem); font-weight:900; color:var(--white); line-height:1.03; margin-bottom:1.3rem; }
+    h1.hero-title em { font-style:italic; color:var(--green-light); }
+    .hero-sub { color:rgba(255,255,255,0.78); font-size:1.08rem; font-weight:300; line-height:1.75; margin-bottom:2.6rem; max-width:500px; }
+    .hero-cta { display:flex; gap:1rem; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; border-radius:4px; font-weight:600; font-size:0.92rem; letter-spacing:0.4px; text-decoration:none; transition:all 0.2s; cursor:pointer; border:none; font-family:'DM Sans',sans-serif; }
+    .btn-gold  { background:var(--earth); color:var(--white); border:2px solid var(--earth); }
+    .btn-gold:hover  { background:var(--earth-light); border-color:var(--earth-light); transform:translateY(-2px); }
+    .btn-wa   { background:var(--wa); color:var(--white); border:2px solid var(--wa); }
+    .btn-wa:hover { background:#1ebe5a; border-color:#1ebe5a; transform:translateY(-2px); }
+    .btn-ghost { background:transparent; color:var(--white); border:2px solid rgba(255,255,255,0.45); }
+    .btn-ghost:hover { border-color:var(--white); transform:translateY(-2px); }
+
+    /* STATS */
+    .stats-strip { background:var(--green-dark); padding:36px 8vw; display:flex; justify-content:space-around; flex-wrap:wrap; gap:2rem; }
+    .stat { text-align:center; }
+    .stat-num { font-family:'Playfair Display',serif; font-size:2.6rem; font-weight:900; color:var(--earth-light); display:block; }
+    .stat-lbl { font-size:0.78rem; color:rgba(255,255,255,0.55); letter-spacing:1.5px; text-transform:uppercase; margin-top:4px; }
+
+    /* SECTIONS */
+    section { padding:100px 8vw; }
+    .sec-label { font-size:0.72rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--earth); margin-bottom:0.7rem; }
+    .sec-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem); font-weight:900; color:var(--green-dark); line-height:1.12; margin-bottom:1rem; }
+    .sec-sub { font-size:1rem; color:var(--text-mid); font-weight:300; line-height:1.8; max-width:520px; }
+
+    /* SERVICES */
+    #services { background:var(--green-dark); position:relative; overflow:hidden; }
+    #services .sec-label { color:var(--earth-light); }
+    #services .sec-title { color:var(--white); }
+    #services .sec-sub   { color:rgba(255,255,255,0.55); }
+    .services-header { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:2rem; margin-bottom:3.5rem; }
+    .services-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(270px,1fr)); gap:2px; }
+    .service-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); padding:2.8rem 2.2rem; position:relative; overflow:hidden; transition:background 0.3s; }
+    .service-card:hover { background:rgba(76,175,80,0.09); }
+    .service-card::before { content:''; position:absolute; top:0; left:0; width:4px; height:0; background:var(--earth-light); transition:height 0.4s ease; }
+    .service-card:hover::before { height:100%; }
+    .s-icon { font-size:3rem; margin-bottom:1.3rem; display:block; }
+    .s-name { font-family:'Playfair Display',serif; font-size:1.35rem; color:var(--white); margin-bottom:0.7rem; }
+    .s-desc { font-size:0.88rem; color:rgba(255,255,255,0.5); line-height:1.75; }
+    .s-price { display:inline-block; margin-top:1.2rem; background:rgba(196,154,42,0.15); color:var(--earth-light); font-size:0.78rem; font-weight:600; letter-spacing:1px; padding:5px 12px; border-radius:3px; border:1px solid rgba(196,154,42,0.3); }
+
+    /* GALLERY */
+    #gallery { background:var(--cream-dark); }
+    .gallery-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:1.5rem; margin-top:3rem; }
+    .ba-card { border-radius:6px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.1); }
+    .ba-slider { position:relative; width:100%; height:240px; overflow:hidden; cursor:col-resize; user-select:none; }
+    .ba-before, .ba-after { position:absolute; top:0; left:0; width:100%; height:100%; }
+    .ba-before img, .ba-after img { width:100%; height:100%; object-fit:cover; display:block; }
+    .ba-after { clip-path:inset(0 50% 0 0); }
+    .ba-handle { position:absolute; top:0; left:50%; transform:translateX(-50%); width:3px; height:100%; background:var(--white); z-index:10; pointer-events:none; }
+    .ba-arrows { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:1rem; color:var(--green-dark); z-index:11; pointer-events:none; background:white; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 10px rgba(0,0,0,0.25); }
+    .ba-labels { display:flex; justify-content:space-between; padding:10px 14px; background:var(--green-dark); }
+    .ba-labels span { font-size:0.72rem; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.6); }
+    .ba-labels span.after-lbl { color:var(--earth-light); }
+    .ba-caption { padding:14px 16px; background:var(--white); font-size:0.88rem; color:var(--text-mid); }
+
+    /* BOOKING */
+    #booking { background:var(--cream); }
+    .booking-layout { display:grid; grid-template-columns:1fr 1.2fr; gap:5rem; align-items:start; margin-top:3rem; }
+    .booking-info { position:sticky; top:88px; }
+    .booking-perks { display:flex; flex-direction:column; gap:1.4rem; margin-top:2rem; }
+    .perk { display:flex; gap:1rem; align-items:flex-start; }
+    .perk-icon { width:42px; height:42px; flex-shrink:0; background:var(--green-dark); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+    .perk h4 { font-family:'Playfair Display',serif; font-size:1rem; color:var(--green-dark); margin-bottom:3px; }
+    .perk p { font-size:0.84rem; color:#666; line-height:1.6; }
+    .booking-form { background:var(--white); border-radius:8px; padding:2.8rem; box-shadow:0 8px 40px rgba(0,0,0,0.08); border-top:4px solid var(--earth); }
+    .form-title { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--green-dark); margin-bottom:0.4rem; }
+    .form-sub { font-size:0.85rem; color:#888; margin-bottom:2rem; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .fg { display:flex; flex-direction:column; gap:6px; margin-bottom:1rem; }
+    .fg label { font-size:0.78rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--green-dark); }
+    .fg input, .fg select, .fg textarea { background:var(--cream); border:1.5px solid var(--cream-dark); color:var(--text); padding:12px 14px; border-radius:4px; font-family:'DM Sans',sans-serif; font-size:0.93rem; outline:none; transition:border-color 0.2s; width:100%; }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color:var(--green-mid); }
+    .fg textarea { resize:vertical; min-height:100px; }
+    .services-check { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; }
+    .check-item { display:flex; align-items:center; gap:8px; cursor:pointer; }
+    .check-item input[type=checkbox] { accent-color:var(--green-mid); width:16px; height:16px; cursor:pointer; }
+    .check-item span { font-size:0.88rem; color:var(--text-mid); }
+    .form-submit { width:100%; margin-top:0.5rem; justify-content:center; font-size:1rem; padding:16px; }
+    .form-note { text-align:center; font-size:0.78rem; color:#aaa; margin-top:1rem; }
+
+    /* TESTIMONIALS */
+    #testimonials { background:var(--green-dark); position:relative; overflow:hidden; }
+    #testimonials .sec-label { color:var(--earth-light); }
+    #testimonials .sec-title { color:var(--white); }
+    #testimonials .sec-sub   { color:rgba(255,255,255,0.5); }
+    .testi-header { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:2rem; margin-bottom:3rem; }
+    .testi-track-wrap { overflow:hidden; }
+    .testi-track { display:flex; gap:1.5rem; transition:transform 0.5s cubic-bezier(.4,0,.2,1); }
+    .testi-card { flex:0 0 calc(33.333% - 1rem); background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:2rem; }
+    .testi-quote { font-size:3.5rem; font-family:'Playfair Display',serif; color:var(--earth-light); line-height:0.8; margin-bottom:1rem; display:block; }
+    .testi-text { font-size:0.93rem; color:rgba(255,255,255,0.72); line-height:1.75; margin-bottom:1.5rem; font-style:italic; }
+    .testi-author { display:flex; align-items:center; gap:0.8rem; }
+    .testi-avatar { width:44px; height:44px; border-radius:50%; background:var(--green-mid); display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:700; color:var(--white); font-family:'Playfair Display',serif; flex-shrink:0; }
+    .testi-name { font-weight:600; color:var(--white); font-size:0.92rem; }
+    .testi-loc  { font-size:0.78rem; color:rgba(255,255,255,0.4); }
+    .testi-stars { color:var(--earth-light); font-size:0.85rem; margin-bottom:3px; }
+    .testi-nav { display:flex; gap:0.8rem; }
+    .testi-btn { width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:var(--white); font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
+    .testi-btn:hover { background:var(--earth); }
+
+    /* CONTACT */
+    #contact { background:linear-gradient(135deg,var(--green-dark) 0%,#0f2212 100%); position:relative; overflow:hidden; }
+    #contact::before { content:''; position:absolute; top:-120px; right:-120px; width:600px; height:600px; border-radius:50%; background:radial-gradient(circle,rgba(76,175,80,0.07) 0%,transparent 70%); }
+    #contact .sec-title { color:var(--white); }
+    #contact .sec-label { color:var(--earth-light); }
+    #contact .sec-sub   { color:rgba(255,255,255,0.55); }
+    .contact-layout { display:grid; grid-template-columns:1fr 1fr; gap:4rem; margin-top:3rem; align-items:start; }
+    .contact-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:1.4rem 1.8rem; display:flex; align-items:center; gap:1.2rem; text-decoration:none; transition:background 0.2s,transform 0.2s; margin-bottom:1rem; }
+    .contact-card:hover { background:rgba(255,255,255,0.09); transform:translateX(5px); }
+    .contact-card.wa-card { background:rgba(37,211,102,0.08); border-color:rgba(37,211,102,0.25); }
+    .contact-card.wa-card:hover { background:rgba(37,211,102,0.15); }
+    .cc-icon { font-size:1.8rem; flex-shrink:0; }
+    .cc-lbl  { font-size:0.68rem; letter-spacing:2px; text-transform:uppercase; color:var(--earth-light); margin-bottom:3px; }
+    .cc-val  { font-size:1.05rem; font-weight:600; color:var(--white); }
+    .cc-name { font-size:0.8rem; color:rgba(255,255,255,0.45); margin-top:2px; }
+    .contact-inputs { display:flex; flex-direction:column; gap:1rem; }
+    .contact-inputs input, .contact-inputs textarea { background:rgba(255,255,255,0.07); border:1.5px solid rgba(255,255,255,0.15); color:white; padding:14px 16px; border-radius:4px; font-family:'DM Sans',sans-serif; font-size:0.93rem; outline:none; width:100%; transition:border-color 0.2s; }
+    .contact-inputs input::placeholder, .contact-inputs textarea::placeholder { color:rgba(255,255,255,0.35); }
+    .contact-inputs input:focus, .contact-inputs textarea:focus { border-color:var(--earth-light); }
+    .contact-inputs textarea { resize:vertical; min-height:130px; }
+
+    /* FLOATING WA */
+    .wa-float { position:fixed; bottom:28px; right:28px; z-index:999; width:60px; height:60px; border-radius:50%; background:var(--wa); color:var(--white); display:flex; align-items:center; justify-content:center; font-size:1.7rem; text-decoration:none; box-shadow:0 4px 20px rgba(37,211,102,0.5); animation:pulse-wa 2.5s infinite; transition:transform 0.2s; }
+    .wa-float:hover { transform:scale(1.1); }
+    .wa-float-label { position:absolute; right:70px; background:var(--green-dark); color:var(--white); font-size:0.78rem; font-weight:600; padding:6px 14px; border-radius:20px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity 0.2s; box-shadow:0 2px 10px rgba(0,0,0,0.2); }
+    .wa-float:hover .wa-float-label { opacity:1; }
+    @keyframes pulse-wa { 0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.5);}50%{box-shadow:0 4px 36px rgba(37,211,102,0.85);} }
+
+    /* FOOTER */
+    footer { background:#0a180d; padding:2.5rem 8vw; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; border-top:1px solid rgba(255,255,255,0.05); }
+    .footer-logo { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:900; color:var(--cream); text-decoration:none; }
+    .footer-logo span { color:var(--earth-light); }
+    footer p { font-size:0.78rem; color:rgba(255,255,255,0.28); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);} }
+    .reveal { opacity:0; transform:translateY(22px); transition:opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* RESPONSIVE */
+    @media(max-width:900px){ .booking-layout{grid-template-columns:1fr;} .booking-info{position:static;} .contact-layout{grid-template-columns:1fr;} .testi-card{flex:0 0 calc(80vw);} .form-row{grid-template-columns:1fr;} }
+    @media(max-width:640px){ .nav-links{display:none;} .gallery-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/27664900656?text=Hi%20Garden%20Relief!%20I%27d%20like%20to%20get%20a%20quote." target="_blank" class="wa-float">
+  <span class="wa-float-label">Chat with us!</span>
+  💬
+</a>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Garden <span>Relief</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#booking" class="nav-book">Book Now</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <span class="hero-badge">🌿 Serving Klerksdorp &amp; Surrounds</span>
+    <h1 class="hero-title">We do it,<br/>so <em>you don't<br/>have to.</em></h1>
+    <p class="hero-sub">Professional lawn care, garden cleaning and rubble removal — keeping your property neat, green, and completely stress-free.</p>
+    <div class="hero-cta">
+      <a href="#booking" class="btn btn-gold">📅 Book a Visit</a>
+      <a href="https://wa.me/27664900656?text=Hi!%20I%27d%20like%20a%20garden%20quote." target="_blank" class="btn btn-wa">💬 WhatsApp Us</a>
+      <a href="tel:0664900656" class="btn btn-ghost">📞 Call Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat"><span class="stat-num">500+</span><span class="stat-lbl">Gardens Serviced</span></div>
+  <div class="stat"><span class="stat-num">100%</span><span class="stat-lbl">Satisfaction Rate</span></div>
+  <div class="stat"><span class="stat-num">2</span><span class="stat-lbl">Dedicated Professionals</span></div>
+  <div class="stat"><span class="stat-num">Fast</span><span class="stat-lbl">Response Time</span></div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <p class="sec-label reveal">What We Offer</p>
+      <h2 class="sec-title reveal">Everything Your<br/>Garden Needs</h2>
+      <p class="sec-sub reveal">From a quick mow to a full property clean-up — handled with care and reliability every time.</p>
+    </div>
+    <a href="#booking" class="btn btn-gold reveal">Get a Free Quote →</a>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="s-icon">🌿</span>
+      <div class="s-name">Lawn Mowing</div>
+      <p class="s-desc">Regular or once-off cuts to keep your grass looking neat, even, and healthy all season long. We edge and trim too.</p>
+      <span class="s-price">FROM R150 / CUT</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="s-icon">🌱</span>
+      <div class="s-name">Garden Service &amp; Cleaning</div>
+      <p class="s-desc">Weeding, edging, trimming and full garden tidying so your outdoor space stays in perfect shape all year round.</p>
+      <span class="s-price">FROM R250 / VISIT</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="s-icon">🪨</span>
+      <div class="s-name">Rubble Removal</div>
+      <p class="s-desc">Quick and affordable removal of building rubble, garden waste and unwanted debris from your property.</p>
+      <span class="s-price">GET A QUOTE</span>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE & AFTER GALLERY -->
+<section id="gallery">
+  <p class="sec-label reveal">Our Work</p>
+  <h2 class="sec-title reveal">Before &amp; After</h2>
+  <p class="sec-sub reveal">Drag the slider left or right to see the transformation. Real results from real Klerksdorp gardens.</p>
+  <div class="gallery-grid">
+
+    <div class="ba-card reveal">
+      <div class="ba-slider">
+        <div class="ba-before"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop&q=80" alt="Before"/></div>
+        <div class="ba-after"><img src="https://images.unsplash.com/photo-1558904541-efa843a96f01?w=600&auto=format&fit=crop&q=80" alt="After"/></div>
+        <div class="ba-handle"><div class="ba-arrows">⇔</div></div>
+      </div>
+      <div class="ba-labels"><span>BEFORE</span><span class="after-lbl">AFTER</span></div>
+      <div class="ba-caption">Overgrown front lawn restored in one visit</div>
+    </div>
+
+    <div class="ba-card reveal">
+      <div class="ba-slider">
+        <div class="ba-before"><img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&auto=format&fit=crop&q=80&sat=-80&bri=-20" alt="Before" style="filter:grayscale(60%) brightness(0.75)"/></div>
+        <div class="ba-after"><img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&auto=format&fit=crop&q=80" alt="After"/></div>
+        <div class="ba-handle"><div class="ba-arrows">⇔</div></div>
+      </div>
+      <div class="ba-labels"><span>BEFORE</span><span class="after-lbl">AFTER</span></div>
+      <div class="ba-caption">Full garden clean-up &amp; flower bed restoration</div>
+    </div>
+
+    <div class="ba-card reveal">
+      <div class="ba-slider">
+        <div class="ba-before"><img src="https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?w=600&auto=format&fit=crop&q=80" alt="Before" style="filter:grayscale(70%) brightness(0.7)"/></div>
+        <div class="ba-after"><img src="https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?w=600&auto=format&fit=crop&q=80" alt="After"/></div>
+        <div class="ba-handle"><div class="ba-arrows">⇔</div></div>
+      </div>
+      <div class="ba-labels"><span>BEFORE</span><span class="after-lbl">AFTER</span></div>
+      <div class="ba-caption">Backyard rubble removal &amp; weed clearing</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="booking-layout">
+    <div class="booking-info">
+      <p class="sec-label reveal">Schedule a Visit</p>
+      <h2 class="sec-title reveal">Book Your Garden<br/>Service Today</h2>
+      <p class="sec-sub reveal">Fill in the form and we'll confirm your booking via WhatsApp within a few hours. No phone call needed.</p>
+      <div class="booking-perks">
+        <div class="perk reveal">
+          <div class="perk-icon">📋</div>
+          <div><h4>Free Assessment</h4><p>We assess your garden and give you a fair, honest quote before any work begins.</p></div>
+        </div>
+        <div class="perk reveal">
+          <div class="perk-icon">📅</div>
+          <div><h4>Flexible Scheduling</h4><p>Choose a date and time that suits you — weekdays or Saturdays available.</p></div>
+        </div>
+        <div class="perk reveal">
+          <div class="perk-icon">✅</div>
+          <div><h4>No Obligation</h4><p>Not happy with the quote? No worries — no charge, no pressure.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-form reveal">
+      <div class="form-title">Request a Booking</div>
+      <p class="form-sub">We'll confirm via WhatsApp within a few hours</p>
+      <div class="form-row">
+        <div class="fg"><label>First Name</label><input type="text" id="fname" placeholder="e.g. Sarah"/></div>
+        <div class="fg"><label>Last Name</label><input type="text" id="lname" placeholder="e.g. Dlamini"/></div>
+      </div>
+      <div class="fg"><label>Phone / WhatsApp Number</label><input type="tel" id="phone" placeholder="e.g. 072 000 0000"/></div>
+      <div class="fg"><label>Address in Klerksdorp</label><input type="text" id="address" placeholder="Your street address"/></div>
+      <div class="form-row">
+        <div class="fg"><label>Preferred Date</label><input type="date" id="bdate"/></div>
+        <div class="fg"><label>Preferred Time</label>
+          <select id="btime">
+            <option value="">Select time...</option>
+            <option>07:00 – 09:00</option>
+            <option>09:00 – 11:00</option>
+            <option>11:00 – 13:00</option>
+            <option>13:00 – 15:00</option>
+            <option>15:00 – 17:00</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label>Services Needed</label>
+        <div class="services-check">
+          <label class="check-item"><input type="checkbox" value="Lawn Mowing"/> <span>🌿 Lawn Mowing</span></label>
+          <label class="check-item"><input type="checkbox" value="Garden Service & Cleaning"/> <span>🌱 Garden Cleaning</span></label>
+          <label class="check-item"><input type="checkbox" value="Rubble Removal"/> <span>🪨 Rubble Removal</span></label>
+          <label class="check-item"><input type="checkbox" value="Full Package"/> <span>⭐ Full Package</span></label>
+        </div>
+      </div>
+      <div class="fg"><label>Additional Notes</label><textarea id="bnotes" placeholder="Anything else? Garden size, special requests, gate codes..."></textarea></div>
+      <button class="btn btn-gold form-submit" onclick="submitBooking()">📅 Send Booking via WhatsApp</button>
+      <p class="form-note">🔒 Your details are only used to confirm your booking</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testi-header">
+    <div>
+      <p class="sec-label reveal">Customer Reviews</p>
+      <h2 class="sec-title reveal">What Klerksdorp<br/>Clients Say</h2>
+    </div>
+    <div class="testi-nav">
+      <button class="testi-btn" onclick="slideTesti(-1)">←</button>
+      <button class="testi-btn" onclick="slideTesti(1)">→</button>
+    </div>
+  </div>
+  <div class="testi-track-wrap">
+    <div class="testi-track" id="testiTrack">
+      <div class="testi-card">
+        <span class="testi-quote">"</span>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Johnny and Ben transformed my garden in one afternoon. It was completely overgrown and now it looks like a show garden. Affordable and so professional!</p>
+        <div class="testi-author"><div class="testi-avatar">M</div><div><div class="testi-name">Maria van Niekerk</div><div class="testi-loc">Flamwood, Klerksdorp</div></div></div>
+      </div>
+      <div class="testi-card">
+        <span class="testi-quote">"</span>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Used Garden Relief three times already. They always show up on time, do excellent work and leave everything spotless. My lawn has never looked better!</p>
+        <div class="testi-author"><div class="testi-avatar">T</div><div><div class="testi-name">Thabo Motsepe</div><div class="testi-loc">Park Hill, Klerksdorp</div></div></div>
+      </div>
+      <div class="testi-card">
+        <span class="testi-quote">"</span>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Hired them for rubble removal after my renovation. Quick, no fuss, great price. Will definitely use them for regular lawn care going forward.</p>
+        <div class="testi-author"><div class="testi-avatar">S</div><div><div class="testi-name">Sandra Botha</div><div class="testi-loc">Wilkoppies, Klerksdorp</div></div></div>
+      </div>
+      <div class="testi-card">
+        <span class="testi-quote">"</span>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Very friendly team. Ben is meticulous with the edging and trimming. My neighbour asked who does my garden — I gave them Garden Relief's number right away!</p>
+        <div class="testi-author"><div class="testi-avatar">R</div><div><div class="testi-name">Rikus Pretorius</div><div class="testi-loc">Meiringspark, Klerksdorp</div></div></div>
+      </div>
+      <div class="testi-card">
+        <span class="testi-quote">"</span>
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Booked through WhatsApp and they confirmed within an hour. Came the next morning and did a stunning job. So convenient and trustworthy!</p>
+        <div class="testi-author"><div class="testi-avatar">L</div><div><div class="testi-name">Lerato Khumalo</div><div class="testi-loc">Klerksdorp Central</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="sec-label reveal">Get In Touch</p>
+  <h2 class="sec-title reveal">Ready for a Greener Garden?</h2>
+  <p class="sec-sub reveal">Reach Johnny or Ben directly — call, WhatsApp, or send a message below.</p>
+  <div class="contact-layout">
+    <div class="reveal">
+      <a href="tel:0664900656" class="contact-card"><div class="cc-icon">📞</div><div><div class="cc-lbl">Call</div><div class="cc-val">066 490 0656</div><div class="cc-name">Johnny</div></div></a>
+      <a href="https://wa.me/27664900656" target="_blank" class="contact-card wa-card"><div class="cc-icon">💬</div><div><div class="cc-lbl">WhatsApp</div><div class="cc-val">066 490 0656</div><div class="cc-name">Johnny</div></div></a>
+      <a href="tel:0655680201" class="contact-card"><div class="cc-icon">📞</div><div><div class="cc-lbl">Call</div><div class="cc-val">065 568 0201</div><div class="cc-name">Ben</div></div></a>
+      <a href="https://wa.me/27655680201" target="_blank" class="contact-card wa-card"><div class="cc-icon">💬</div><div><div class="cc-lbl">WhatsApp</div><div class="cc-val">065 568 0201</div><div class="cc-name">Ben</div></div></a>
+      <div class="contact-card" style="pointer-events:none;opacity:0.7;"><div class="cc-icon">📍</div><div><div class="cc-lbl">Area Served</div><div class="cc-val">Klerksdorp</div><div class="cc-name">North West, South Africa</div></div></div>
+    </div>
+    <div class="contact-inputs reveal">
+      <input type="text" id="cname" placeholder="Your Name"/>
+      <input type="tel" id="cphone" placeholder="Your Phone Number"/>
+      <textarea id="cmsg" placeholder="Tell us about your garden — size, service needed, or any questions..."></textarea>
+      <button class="btn btn-wa" onclick="sendContactWA()" style="align-self:flex-start;">💬 Send via WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">Garden <span>Relief</span></a>
+  <p>© 2025 Garden Relief. All rights reserved.</p>
+  <p>Klerksdorp, North West, South Africa</p>
+  <p style="font-size:0.75rem;color:rgba(255,255,255,0.2);width:100%;text-align:center;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.05);margin-top:0.5rem;">
+    Designed &amp; built by <a href="#" style="color:var(--earth-light);text-decoration:none;font-weight:600;letter-spacing:0.5px;">CoVerse Studio</a>
+  </p>
+</footer>
+
+<script>
+  /* SCROLL REVEAL */
+  const reveals = document.querySelectorAll('.reveal');
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*70); });
+  },{threshold:0.08});
+  reveals.forEach(el=>ro.observe(el));
+
+  /* NAV SHADOW */
+  window.addEventListener('scroll',()=>{
+    document.getElementById('mainNav').style.boxShadow = window.scrollY>60?'0 4px 24px rgba(0,0,0,0.35)':'none';
+  });
+
+  /* BEFORE/AFTER SLIDERS */
+  document.querySelectorAll('.ba-slider').forEach(slider=>{
+    const after  = slider.querySelector('.ba-after');
+    const handle = slider.querySelector('.ba-handle');
+    const arrows = slider.querySelector('.ba-arrows');
+    let dragging = false;
+
+    function setPos(x){
+      const r = slider.getBoundingClientRect();
+      let pct = Math.max(5, Math.min(95, ((x-r.left)/r.width)*100));
+      after.style.clipPath = `inset(0 ${100-pct}% 0 0)`;
+      handle.style.left = pct+'%';
+      arrows.style.left = pct+'%';
+      arrows.style.transform = 'translate(-50%,-50%)';
+    }
+    slider.addEventListener('mousedown', e=>{dragging=true; setPos(e.clientX);});
+    window.addEventListener('mousemove', e=>{if(dragging) setPos(e.clientX);});
+    window.addEventListener('mouseup', ()=>dragging=false);
+    slider.addEventListener('touchstart', e=>{dragging=true; setPos(e.touches[0].clientX);},{passive:true});
+    window.addEventListener('touchmove', e=>{if(dragging) setPos(e.touches[0].clientX);},{passive:true});
+    window.addEventListener('touchend', ()=>dragging=false);
+  });
+
+  /* TESTIMONIAL SLIDER */
+  let tIdx = 0;
+  function slideTesti(dir){
+    const track = document.getElementById('testiTrack');
+    const cards = track.querySelectorAll('.testi-card');
+    const visible = window.innerWidth<900?1:3;
+    const max = cards.length - visible;
+    tIdx = Math.max(0, Math.min(max, tIdx+dir));
+    const w = cards[0].offsetWidth + 24;
+    track.style.transform = `translateX(-${tIdx*w}px)`;
+  }
+
+  /* BOOKING FORM */
+  function submitBooking(){
+    const fname   = document.getElementById('fname').value.trim();
+    const lname   = document.getElementById('lname').value.trim();
+    const phone   = document.getElementById('phone').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const date    = document.getElementById('bdate').value;
+    const time    = document.getElementById('btime').value;
+    const notes   = document.getElementById('bnotes').value.trim();
+    const checks  = [...document.querySelectorAll('.services-check input:checked')].map(c=>c.value);
+    if(!fname||!phone){alert('Please enter your name and phone number.');return;}
+    if(!date){alert('Please select a preferred date.');return;}
+    if(!checks.length){alert('Please select at least one service.');return;}
+    const msg =
+      `🌿 *Garden Relief Booking Request*\n\n`+
+      `👤 *Name:* ${fname} ${lname}\n`+
+      `📞 *Phone:* ${phone}\n`+
+      `📍 *Address:* ${address||'Not provided'}\n`+
+      `📅 *Date:* ${date}\n`+
+      `⏰ *Time:* ${time||'Flexible'}\n`+
+      `🛠 *Services:* ${checks.join(', ')}\n`+
+      `📝 *Notes:* ${notes||'None'}\n\n`+
+      `Please confirm my booking. Thank you!`;
+    window.open(`https://wa.me/27664900656?text=${encodeURIComponent(msg)}`,'_blank');
+  }
+
+  /* CONTACT FORM */
+  function sendContactWA(){
+    const name  = document.getElementById('cname').value.trim();
+    const phone = document.getElementById('cphone').value.trim();
+    const msg   = document.getElementById('cmsg').value.trim();
+    if(!name||!phone){alert('Please enter your name and phone number.');return;}
+    const text = `Hi Garden Relief! My name is ${name} (${phone}). ${msg}`;
+    window.open(`https://wa.me/27664900656?text=${encodeURIComponent(text)}`,'_blank');
+  }
+
+  /* MIN DATE */
+  document.getElementById('bdate').min = new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
